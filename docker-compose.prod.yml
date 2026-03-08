@@ -1,16 +1,21 @@
 services:
-  ssh-tunnel:
-    build:
-      context: ./ssh-tunnel
+  db:
+    image: mysql:8.0
     restart: unless-stopped
     environment:
-      SSH_HOST: ${SSH_HOST}
-      SSH_PASSWORD: ${SSH_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
     healthcheck:
-      test: ["CMD", "nc", "-z", "localhost", "3306"]
-      interval: 5s
-      timeout: 3s
-      retries: 10
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   api:
     build:
@@ -18,12 +23,12 @@ services:
       dockerfile: Dockerfile
     restart: unless-stopped
     environment:
-      ConnectionStrings__DefaultConnection: "Server=ssh-tunnel;Port=3306;Database=${MYSQL_DATABASE};User=${MYSQL_USER};Password=${MYSQL_PASSWORD};"
-      ASPNETCORE_ENVIRONMENT: Development
+      ConnectionStrings__DefaultConnection: "Server=db;Port=3306;Database=${MYSQL_DATABASE};User=${MYSQL_USER};Password=${MYSQL_PASSWORD};"
+      ASPNETCORE_ENVIRONMENT: Production
     ports:
-      - "5001:5000"
+      - "5000:5000"
     depends_on:
-      ssh-tunnel:
+      db:
         condition: service_healthy
 
   web:
@@ -49,3 +54,6 @@ services:
     depends_on:
       - api
       - web
+
+volumes:
+  mysql_data:
