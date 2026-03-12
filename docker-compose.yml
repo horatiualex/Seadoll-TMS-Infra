@@ -3,6 +3,8 @@ services:
     build:
       context: ./ssh-tunnel
     restart: unless-stopped
+    ports:
+      - "3307:3306"
     environment:
       SSH_HOST: ${SSH_HOST}
       SSH_PASSWORD: ${SSH_PASSWORD}
