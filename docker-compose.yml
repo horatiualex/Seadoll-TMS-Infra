@@ -22,6 +22,9 @@ services:
     environment:
       ConnectionStrings__DefaultConnection: "Server=ssh-tunnel;Port=3306;Database=${MYSQL_DATABASE};User=${MYSQL_USER};Password=${MYSQL_PASSWORD};"
       ASPNETCORE_ENVIRONMENT: Development
+      Cors__AllowedOrigins__0: "http://localhost"
+      Cors__AllowedOrigins__1: "http://localhost:3000"
+      Cors__AllowedOrigins__2: "http://localhost:3001"
     ports:
       - "5001:5000"
     depends_on:
