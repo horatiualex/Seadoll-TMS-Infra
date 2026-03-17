@@ -25,6 +25,8 @@ services:
       Cors__AllowedOrigins__0: "http://localhost"
       Cors__AllowedOrigins__1: "http://localhost:3000"
       Cors__AllowedOrigins__2: "http://localhost:3001"
+    volumes:
+      - ../Seadoll-TMS-BE/SeadollTMS.Api/uploads:/app/uploads
     ports:
       - "5001:5000"
     depends_on:
