@@ -25,6 +25,7 @@ services:
     environment:
       ConnectionStrings__DefaultConnection: "Server=db;Port=3306;Database=${MYSQL_DATABASE};User=${MYSQL_USER};Password=${MYSQL_PASSWORD};"
       ASPNETCORE_ENVIRONMENT: Production
+      Jwt__Key: ${JWT_KEY}
     ports:
       - "5000:5000"
     depends_on:

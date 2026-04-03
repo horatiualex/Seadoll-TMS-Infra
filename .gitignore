@@ -1,5 +1,9 @@
 
 .DS_Store
 
+# Secrets - never commit
+.env
+.env.*
+
 ## Copilot
 .github/copilot-instructions.md
