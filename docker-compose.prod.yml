@@ -4,10 +4,8 @@ services:
       context: ../Seadoll-TMS-BE
       dockerfile: Dockerfile
     restart: unless-stopped
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
     environment:
-      ConnectionStrings__DefaultConnection: "Server=host.docker.internal;Port=3306;Database=${MYSQL_DATABASE};User=${MYSQL_USER};Password=${MYSQL_PASSWORD};"
+      ConnectionStrings__DefaultConnection: "Server=172.17.0.1;Port=3306;Database=${MYSQL_DATABASE};User=${MYSQL_USER};Password=${MYSQL_PASSWORD};"
       ASPNETCORE_ENVIRONMENT: Production
       Jwt__Key: ${JWT_KEY}
       Cors__AllowedOrigins__0: "http://${VPS_IP}"
